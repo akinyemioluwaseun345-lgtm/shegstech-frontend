@@ -23,7 +23,7 @@ interface ResultData {
 }
 
 export default function Home() {
-  const [result, setResult] = useState<ResultData | null>(null);
+  const [result, setResult] = useState<ResultData | undefined>(undefined);
   const [loading, setLoading] = useState(false);
 
   const handleCalculate = async (formData: FormData) => {
@@ -74,7 +74,7 @@ export default function Home() {
 
       <DashboardLayout>
         {/* Page Header */}
-        <div className="px-4 md:px-6 py-8 border-b border-gray-200">
+        <div className="px-4 md:px-6 py-8 border-b border-gray-200 bg-white">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Naira Value Calculator</h1>
           <p className="text-gray-600">
             Evaluate vendor pricing against estimated market value. Get instant analysis and verdicts.
@@ -82,7 +82,7 @@ export default function Home() {
         </div>
 
         {/* Main Content */}
-        <div className="px-4 md:px-6 py-8">
+        <div className="px-4 md:px-6 py-8 bg-gray-50">
           {/* Desktop: 3-column layout (1-2 split) */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             {/* Left Column: Calculator Form */}
