@@ -23,7 +23,7 @@ interface ResultData {
 }
 
 export default function Home() {
-  const [result, setResult] = useState<ResultData | null>(null);
+  const [result, setResult] = useState<ResultData | undefined>(undefined);
   const [loading, setLoading] = useState(false);
 
   const handleCalculate = async (formData: FormData) => {
