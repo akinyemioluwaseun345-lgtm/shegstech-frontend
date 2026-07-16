@@ -52,24 +52,34 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loa
       <h3 className="text-lg font-semibold text-gray-900 mb-6">Device Valuation</h3>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        {/* Device Model */}
+        {/* Device Model Search */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Device Model
           </label>
-          <select
-            value={formData.deviceModel}
-            onChange={(e) => handleChange('deviceModel', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-smooth appearance-none"
-            required
-          >
-            <option value="">Select a device...</option>
-            {deviceModels.map((model) => (
-              <option key={model} value={model}>
-                {model}
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <svg
+              className="absolute left-3 top-2.5 w-5 h-5 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+            <input
+              type="text"
+              value={formData.deviceModel}
+              onChange={(e) => handleChange('deviceModel', e.target.value)}
+              placeholder="Search for any phone, laptop, or tablet..."
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-smooth"
+              required
+            />
+          </div>
         </div>
 
         {/* Storage Capacity */}
