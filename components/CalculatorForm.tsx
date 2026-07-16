@@ -48,7 +48,7 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loa
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+    <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-md">
       <h3 className="text-lg font-semibold text-gray-900 mb-6">Device Valuation</h3>
 
       <form onSubmit={handleSubmit} className="space-y-5">
@@ -147,7 +147,7 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loa
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-semibold py-2.5 px-4 rounded-lg hover:from-indigo-700 hover:to-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed transition-smooth mt-6"
+          className="w-full bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 mt-6 shadow-md hover:shadow-lg hover:-translate-y-0.5"
         >
           {loading ? (
             <div className="flex items-center justify-center gap-2">
