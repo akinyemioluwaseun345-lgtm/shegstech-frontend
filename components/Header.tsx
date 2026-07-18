@@ -22,11 +22,13 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
             </svg>
           </button>
 
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-indigo-600 rounded-2xl flex items-center justify-center">
-              <span className="text-white font-bold text-sm">ST</span>
-            </div>
-            <span className="font-bold text-lg hidden sm:inline text-gray-900">SHEGS TECH</span>
+          <div className="flex items-center gap-1">
+            <span className="font-extrabold text-lg tracking-tight text-gray-900 hidden sm:inline">
+              SHEGS<span className="text-indigo-600">TECH</span>
+            </span>
+            <span className="font-extrabold text-lg tracking-tight text-gray-900 sm:hidden">
+              ST
+            </span>
           </div>
         </div>
 
