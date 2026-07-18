@@ -23,7 +23,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
           </button>
 
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-indigo-600 rounded-2xl flex items-center justify-center">
               <span className="text-white font-bold text-sm">ST</span>
             </div>
             <span className="font-bold text-lg hidden sm:inline text-gray-900">SHEGS TECH</span>
@@ -35,7 +35,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
           <div className="relative w-full">
             <input
               type="text"
-              placeholder="Search devices, prices..."
+              placeholder="Search phone, laptop, tablet..."
               className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-smooth"
             />
             <svg className="absolute right-3 top-2.5 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
