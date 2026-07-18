@@ -1,4 +1,5 @@
 import React from 'react';
+import { Smartphone } from 'lucide-react';
 
 interface Device {
   id: string;
@@ -8,7 +9,8 @@ interface Device {
   marketValue: number;
   condition: string;
   verdict: 'LEGIT' | 'SCAM' | 'OVERPRICED';
-  logoUrl: string;
+  logoUrl?: string;
+  useIcon?: boolean;
 }
 
 interface DeviceComparisonProps {
@@ -25,7 +27,7 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
       marketValue: 1520000,
       condition: 'New',
       verdict: 'LEGIT',
-      logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg',
+      logoUrl: 'https://cdn.simpleicons.org/apple',
     },
     {
       id: '2',
@@ -35,7 +37,7 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
       marketValue: 1180000,
       condition: 'Like New',
       verdict: 'OVERPRICED',
-      logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Samsung_Logo.svg',
+      logoUrl: 'https://cdn.simpleicons.org/samsung',
     },
     {
       id: '3',
@@ -45,7 +47,7 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
       marketValue: 480000,
       condition: 'Good',
       verdict: 'LEGIT',
-      logoUrl: 'https://upload.wikimedia.org/wikipedia/en/5/51/Tecno_Mobile_Logo.png',
+      useIcon: true,
     },
     {
       id: '4',
@@ -55,7 +57,7 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
       marketValue: 320000,
       condition: 'Fair',
       verdict: 'SCAM',
-      logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/b5/Xiaomi_logo.svg',
+      logoUrl: 'https://cdn.simpleicons.org/xiaomi',
     },
   ],
 }) => {
@@ -95,11 +97,15 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-start gap-3">
                 <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center border border-gray-200 shadow-sm">
-                  <img 
-                    src={device.logoUrl} 
-                    alt={device.name}
-                    className="w-8 h-8 object-contain"
-                  />
+                  {device.useIcon ? (
+                    <Smartphone className="w-6 h-6 text-gray-700" />
+                  ) : (
+                    <img 
+                      src={device.logoUrl} 
+                      alt={device.name}
+                      className="w-7 h-7 object-contain"
+                    />
+                  )}
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-900 text-sm">{device.name}</h4>
