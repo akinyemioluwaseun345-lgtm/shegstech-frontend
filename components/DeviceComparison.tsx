@@ -8,7 +8,7 @@ interface Device {
   marketValue: number;
   condition: string;
   verdict: 'LEGIT' | 'SCAM' | 'OVERPRICED';
-  icon: React.ReactNode;
+  logoUrl: string;
 }
 
 interface DeviceComparisonProps {
@@ -25,11 +25,7 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
       marketValue: 1520000,
       condition: 'New',
       verdict: 'LEGIT',
-      icon: (
-        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M17 2H7c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-5 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm5-3H7V4h10v13z" />
-        </svg>
-      ),
+      logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg',
     },
     {
       id: '2',
@@ -39,11 +35,7 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
       marketValue: 1180000,
       condition: 'Like New',
       verdict: 'OVERPRICED',
-      icon: (
-        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="10" />
-        </svg>
-      ),
+      logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Samsung_Logo.svg',
     },
     {
       id: '3',
@@ -53,11 +45,7 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
       marketValue: 480000,
       condition: 'Good',
       verdict: 'LEGIT',
-      icon: (
-        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-        </svg>
-      ),
+      logoUrl: 'https://upload.wikimedia.org/wikipedia/en/5/51/Tecno_Mobile_Logo.png',
     },
     {
       id: '4',
@@ -67,11 +55,7 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
       marketValue: 320000,
       condition: 'Fair',
       verdict: 'SCAM',
-      icon: (
-        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" />
-        </svg>
-      ),
+      logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/b5/Xiaomi_logo.svg',
     },
   ],
 }) => {
@@ -110,8 +94,12 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
             {/* Header */}
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-start gap-3">
-                <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center border border-gray-200">
-                  {device.icon}
+                <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center border border-gray-200 shadow-sm">
+                  <img 
+                    src={device.logoUrl} 
+                    alt={device.name}
+                    className="w-8 h-8 object-contain"
+                  />
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-900 text-sm">{device.name}</h4>
