@@ -1,4 +1,5 @@
 import React from 'react';
+import { Smartphone } from 'lucide-react';
 
 interface Device {
   id: string;
@@ -8,7 +9,8 @@ interface Device {
   marketValue: number;
   condition: string;
   verdict: 'LEGIT' | 'SCAM' | 'OVERPRICED';
-  icon: React.ReactNode;
+  logoUrl?: string;
+  useIcon?: boolean;
 }
 
 interface DeviceComparisonProps {
@@ -25,11 +27,7 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
       marketValue: 1520000,
       condition: 'New',
       verdict: 'LEGIT',
-      icon: (
-        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M17 2H7c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-5 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm5-3H7V4h10v13z" />
-        </svg>
-      ),
+      logoUrl: 'https://cdn.simpleicons.org/apple',
     },
     {
       id: '2',
@@ -39,11 +37,7 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
       marketValue: 1180000,
       condition: 'Like New',
       verdict: 'OVERPRICED',
-      icon: (
-        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M17 2H7c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-5 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm5-3H7V4h10v13z" />
-        </svg>
-      ),
+      logoUrl: 'https://cdn.simpleicons.org/samsung',
     },
     {
       id: '3',
@@ -53,11 +47,7 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
       marketValue: 480000,
       condition: 'Good',
       verdict: 'LEGIT',
-      icon: (
-        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M17 2H7c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-5 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm5-3H7V4h10v13z" />
-        </svg>
-      ),
+      useIcon: true,
     },
     {
       id: '4',
@@ -67,11 +57,7 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
       marketValue: 320000,
       condition: 'Fair',
       verdict: 'SCAM',
-      icon: (
-        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M17 2H7c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-5 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm5-3H7V4h10v13z" />
-        </svg>
-      ),
+      logoUrl: 'https://cdn.simpleicons.org/xiaomi',
     },
   ],
 }) => {
@@ -110,8 +96,16 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
             {/* Header */}
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-start gap-3">
-                <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center border border-gray-200">
-                  {device.icon}
+                <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center border border-gray-200 shadow-sm">
+                  {device.useIcon ? (
+                    <Smartphone className="w-6 h-6 text-gray-700" />
+                  ) : (
+                    <img 
+                      src={device.logoUrl} 
+                      alt={device.name}
+                      className="w-7 h-7 object-contain"
+                    />
+                  )}
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-900 text-sm">{device.name}</h4>

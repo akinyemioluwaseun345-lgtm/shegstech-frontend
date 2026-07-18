@@ -23,7 +23,15 @@ interface ResultData {
 }
 
 export default function Home() {
-  const [result, setResult] = useState<ResultData | undefined>(undefined);
+  const [result, setResult] = useState<ResultData | undefined>({
+    score: 8.2,
+    verdict: 'LEGIT',
+    analysis: 'Vendor price falls within expected market range. Based on current device valuation, iPhone 15 Pro Max with 256GB storage in New condition is fairly priced.',
+    marketValue: 1520000,
+    vendorPrice: 1500000,
+    difference: 20000,
+    confidence: 92,
+  });
   const [loading, setLoading] = useState(false);
 
   const handleCalculate = async (formData: FormData) => {

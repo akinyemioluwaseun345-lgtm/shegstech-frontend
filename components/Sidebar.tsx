@@ -24,7 +24,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
       items: [
         { label: 'Value Calculator', icon: null },
         { label: 'Spec Comparator', icon: null },
-        { label: 'Market Rader', icon: null },
+        { label: 'Market Radar', icon: null },
       ],
     },
     {
@@ -38,7 +38,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
     {
       title: 'User Engine',
       items: [
-        { label: 'My Garage(saved items)', icon: null },
+        { label: 'My Garage (Saved Items)', icon: null },
         { label: 'Settings', icon: null },
         { label: 'Sign Out', icon: null },
       ],
@@ -57,13 +57,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 bottom-0 w-64 bg-black text-white overflow-y-auto transition-transform duration-300 lg:static lg:translate-x-0 z-40 ${
+        className={`fixed left-0 top-0 bottom-0 w-64 bg-black text-white overflow-y-auto transition-transform duration-300 lg:static lg:translate-x-0 z-40 flex flex-col ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-800">
-          <h2 className="text-lg font-bold">SHEGS TECH</h2>
+          <h2 className="font-extrabold text-lg tracking-tight text-white">
+            SHEGS<span className="text-indigo-400">TECH</span>
+          </h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-white transition-colors lg:hidden"
@@ -75,7 +77,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
         </div>
 
         {/* Navigation */}
-        <nav className="p-4 space-y-8">
+        <nav className="p-4 space-y-8 flex-1">
           {navSections.map((section) => (
             <div key={section.title}>
               <h3 className="px-2 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
@@ -95,6 +97,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
             </div>
           ))}
         </nav>
+
+        {/* Footer */}
+        <div className="p-4 border-t border-gray-800">
+          <p className="text-xs text-gray-500 text-center">App Version v1.0.0</p>
+        </div>
       </aside>
     </>
   );
