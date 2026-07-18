@@ -10,6 +10,13 @@ interface ResultData {
   confidence: number;
 }
 
+const formatCurrency = (value: number): string => {
+  if (value >= 1000000) {
+    return `₦${(value / 1000000).toFixed(2)}M`;
+  }
+  return `₦${(value / 1000).toFixed(0)}K`;
+};
+
 interface ResultCardProps {
   data?: ResultData;
   loading?: boolean;
@@ -103,13 +110,13 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading }) => {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 overflow-hidden">
       {/* Score Card */}
       <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
         <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-4">Value Score</h3>
         <ScoreCircle score={data.score} />
-        <div className="text-center mb-4">
-          <p className="text-sm text-gray-600">Market Analysis Score</p>
+        <div className="text-center">
+          <p className="text-xs text-gray-500">Measures price fairness and seller reliability.</p>
         </div>
       </div>
 
@@ -132,28 +139,46 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading }) => {
           {/* Market Value */}
           <div className="flex items-center justify-between p-3 bg-indigo-50 border border-indigo-100 rounded-lg">
             <span className="text-sm text-gray-700">Estimated Market Value</span>
-            <span className="font-semibold text-indigo-600">₦{data.marketValue.toLocaleString()}</span>
+            <span className="font-semibold text-indigo-600">{formatCurrency(data.marketValue)}</span>
           </div>
 
           {/* Vendor Price */}
           <div className="flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-lg">
             <span className="text-sm text-gray-700">Vendor Price</span>
-            <span className="font-semibold text-gray-900">₦{data.vendorPrice.toLocaleString()}</span>
+            <span className="font-semibold text-gray-900">{formatCurrency(data.vendorPrice)}</span>
           </div>
 
-          {/* Difference */}
-          <div className={`flex items-center justify-between p-3 rounded-lg border ${
-            data.difference >= 0
-              ? 'bg-emerald-50 border-emerald-100'
-              : 'bg-red-50 border-red-100'
-          }`}>
-            <span className="text-sm text-gray-700">Difference</span>
-            <span className={`font-semibold ${
-              data.difference >= 0 ? 'text-emerald-600' : 'text-red-600'
-            }`}>
-              {data.difference >= 0 ? '−' : '+'}₦{Math.abs(data.difference).toLocaleString()}
-            </span>
-          </div>
+          {/* Difference - Fixed Logic */}
+          {(() => {
+            const isDifferenceLower = data.vendorPrice < data.marketValue;
+            const absoluteDifference = Math.abs(data.vendorPrice - data.marketValue);
+            const percentage = ((absoluteDifference / data.marketValue) * 100).toFixed(1);
+            
+            return (
+              <div className={`flex flex-col p-3 rounded-lg border ${
+                isDifferenceLower
+                  ? 'bg-emerald-50 border-emerald-100'
+                  : 'bg-amber-50 border-amber-100'
+              }`}>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-700">Difference</span>
+                  <span className={`font-semibold ${
+                    isDifferenceLower ? 'text-emerald-600' : 'text-amber-600'
+                  }`}>
+                    {isDifferenceLower ? '−' : '+'}₦{formatCurrency(absoluteDifference).substring(1)}
+                  </span>
+                </div>
+                <p className={`text-xs mt-1 ${
+                  isDifferenceLower ? 'text-emerald-600' : 'text-amber-600'
+                }`}>
+                  {isDifferenceLower 
+                    ? `−₦${formatCurrency(absoluteDifference).substring(1)} (${percentage}% below market)`
+                    : `+₦${formatCurrency(absoluteDifference).substring(1)} (${percentage}% above market)`
+                  }
+                </p>
+              </div>
+            );
+          })()}
 
           {/* Confidence Score */}
           <div className="flex items-center justify-between p-3 bg-blue-50 border border-blue-100 rounded-lg">
@@ -174,29 +199,47 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading }) => {
       {/* Trend Chart */}
       <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
         <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-4">Market Trend</h3>
-        <svg viewBox="0 0 300 100" className="w-full h-24">
-          {/* Grid lines */}
-          <line x1="0" y1="25" x2="300" y2="25" stroke="#e5e7eb" strokeWidth="1" />
-          <line x1="0" y1="50" x2="300" y2="50" stroke="#e5e7eb" strokeWidth="1" />
-          <line x1="0" y1="75" x2="300" y2="75" stroke="#e5e7eb" strokeWidth="1" />
+        <div className="flex gap-2">
+          {/* Y-axis labels */}
+          <div className="flex flex-col justify-between text-xs text-gray-500 pr-2">
+            <span>{formatCurrency(data.marketValue * 1.1)}</span>
+            <span>{formatCurrency(data.marketValue)}</span>
+            <span>{formatCurrency(data.marketValue * 0.9)}</span>
+          </div>
+          
+          {/* Chart */}
+          <div className="flex-1">
+            <svg viewBox="0 0 300 100" className="w-full h-24">
+              {/* Grid lines */}
+              <line x1="0" y1="25" x2="300" y2="25" stroke="#e5e7eb" strokeWidth="1" />
+              <line x1="0" y1="50" x2="300" y2="50" stroke="#e5e7eb" strokeWidth="1" />
+              <line x1="0" y1="75" x2="300" y2="75" stroke="#e5e7eb" strokeWidth="1" />
 
-          {/* Trend line */}
-          <polyline
-            points="10,60 50,45 90,50 130,35 170,40 210,25 250,30 290,20"
-            stroke="#6366f1"
-            strokeWidth="2"
-            fill="none"
-            vectorEffect="non-scaling-stroke"
-          />
+              {/* Trend line */}
+              <polyline
+                points="10,60 50,45 90,50 130,35 170,40 210,25 250,30 290,20"
+                stroke="#6366f1"
+                strokeWidth="2"
+                fill="none"
+                vectorEffect="non-scaling-stroke"
+              />
 
-          {/* Area under curve */}
-          <polygon
-            points="10,60 50,45 90,50 130,35 170,40 210,25 250,30 290,20 290,100 10,100"
-            fill="#6366f1"
-            opacity="0.1"
-          />
-        </svg>
-        <p className="text-xs text-gray-500 text-center mt-2">Price trend over last 30 days</p>
+              {/* Area under curve */}
+              <polygon
+                points="10,60 50,45 90,50 130,35 170,40 210,25 250,30 290,20 290,100 10,100"
+                fill="#6366f1"
+                opacity="0.1"
+              />
+            </svg>
+            
+            {/* X-axis labels */}
+            <div className="flex justify-between text-xs text-gray-500 mt-2 pl-1">
+              <span>Jan</span>
+              <span>Now</span>
+            </div>
+          </div>
+        </div>
+        <p className="text-xs text-gray-500 text-center mt-4">Price trend over last 30 days</p>
       </div>
     </div>
   );
