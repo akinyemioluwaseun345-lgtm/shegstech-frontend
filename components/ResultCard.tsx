@@ -126,7 +126,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading }) => {
         <div className="flex justify-center mb-4">
           <VerdictBadge verdict={data.verdict} />
         </div>
-        <p className="text-center text-sm text-gray-700 dark:text-gray-300 leading-relaxed bg-gray-50 dark:bg-zinc-800 p-3 rounded-lg">
+        <p className="text-center text-sm text-gray-700 leading-relaxed bg-gray-50 p-3 rounded-lg">
           {data.analysis}
         </p>
       </div>
@@ -137,15 +137,15 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading }) => {
 
         <div className="space-y-3">
           {/* Market Value */}
-          <div className="flex items-center justify-between p-3 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-900/40 rounded-lg">
-            <span className="text-sm text-gray-700 dark:text-gray-300">Estimated Market Value</span>
-            <span className="font-semibold text-indigo-600 dark:text-indigo-400">{formatCurrency(data.marketValue)}</span>
+          <div className="flex items-center justify-between p-3 bg-indigo-50 border border-indigo-100 rounded-lg">
+            <span className="text-sm text-gray-700">Estimated Market Value</span>
+            <span className="font-semibold text-indigo-600">{formatCurrency(data.marketValue)}</span>
           </div>
 
           {/* Vendor Price */}
-          <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg">
-            <span className="text-sm text-gray-700 dark:text-gray-300">Vendor Price</span>
-            <span className="font-semibold text-gray-900 dark:text-gray-100">{formatCurrency(data.vendorPrice)}</span>
+          <div className="flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-lg">
+            <span className="text-sm text-gray-700">Vendor Price</span>
+            <span className="font-semibold text-gray-900">{formatCurrency(data.vendorPrice)}</span>
           </div>
 
           {/* Difference - Fixed Logic */}
@@ -157,11 +157,11 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading }) => {
             return (
               <div className={`flex flex-col p-3 rounded-lg border ${
                 isDifferenceLower
-                  ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-100 dark:border-emerald-900/40'
-                  : 'bg-amber-50 dark:bg-amber-900/20 border-amber-100 dark:border-amber-900/40'
+                  ? 'bg-emerald-50 border-emerald-100'
+                  : 'bg-amber-50 border-amber-100'
               }`}>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-700 dark:text-gray-300">Difference</span>
+                  <span className="text-sm text-gray-700">Difference</span>
                   <span className={`font-semibold ${
                     isDifferenceLower ? 'text-emerald-600' : 'text-amber-600'
                   }`}>
@@ -181,16 +181,16 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading }) => {
           })()}
 
           {/* Confidence Score */}
-          <div className="flex items-center justify-between p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900/40 rounded-lg">
-            <span className="text-sm text-gray-700 dark:text-gray-300">Confidence Level</span>
+          <div className="flex items-center justify-between p-3 bg-blue-50 border border-blue-100 rounded-lg">
+            <span className="text-sm text-gray-700">Confidence Level</span>
             <div className="flex items-center gap-2">
-              <div className="w-16 h-1.5 bg-blue-200 dark:bg-blue-900/40 rounded-full overflow-hidden">
+              <div className="w-16 h-1.5 bg-blue-200 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-blue-600 dark:bg-blue-500 rounded-full transition-all duration-500"
+                  className="h-full bg-blue-600 rounded-full transition-all duration-500"
                   style={{ width: `${data.confidence}%` }}
                 />
               </div>
-              <span className="font-semibold text-blue-600 dark:text-blue-400 text-sm">{data.confidence}%</span>
+              <span className="font-semibold text-blue-600 text-sm">{data.confidence}%</span>
             </div>
           </div>
         </div>

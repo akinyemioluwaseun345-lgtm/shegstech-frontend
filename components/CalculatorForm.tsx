@@ -10,10 +10,9 @@ interface FormData {
 interface CalculatorFormProps {
   onCalculate?: (data: FormData) => void;
   loading?: boolean;
-  onClose?: () => void;
 }
 
-export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loading = false, onClose }) => {
+export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loading = false }) => {
   const [formData, setFormData] = useState<FormData>({
     deviceModel: '',
     storage: '',
@@ -76,7 +75,7 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loa
               type="text"
               value={formData.deviceModel}
               onChange={(e) => handleChange('deviceModel', e.target.value)}
-              placeholder="Search device..."
+              placeholder="Search for a device... e.g. iPhone 15 Pro Max"
               className="w-full pl-10 pr-3 py-2 border border-stone-300 dark:border-zinc-700 rounded-lg bg-white dark:bg-zinc-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-smooth"
               required
             />
