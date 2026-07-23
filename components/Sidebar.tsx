@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Sun, Moon } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -18,6 +20,28 @@ interface NavSection {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
+  const [isDark, setIsDark] = useState(false);
+  
+  // Get theme from context, with fallback
+  let themeContext = null;
+  try {
+    themeContext = useTheme();
+  } catch {
+    // ThemeProvider not available during SSR
+  }
+  
+  useEffect(() => {
+    if (themeContext) {
+      setIsDark(themeContext.isDark);
+    }
+  }, [themeContext]);
+  
+  const toggleTheme = () => {
+    if (themeContext) {
+      themeContext.toggleTheme();
+    }
+  };
+
   const navSections: NavSection[] = [
     {
       title: 'Core Utilities',
@@ -99,7 +123,26 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
         </nav>
 
         {/* Footer */}
-        <div className="p-4 border-t border-gray-800">
+        <div className="p-4 border-t border-gray-800 space-y-3">
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-gray-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
+            aria-label="Toggle theme"
+          >
+            {isDark ? (
+              <>
+                <Sun className="w-4 h-4" />
+                <span>Light Mode</span>
+              </>
+            ) : (
+              <>
+                <Moon className="w-4 h-4" />
+                <span>Dark Mode</span>
+              </>
+            )}
+          </button>
+          
           <p className="text-xs text-gray-500 text-center">App Version v1.0.0</p>
         </div>
       </aside>

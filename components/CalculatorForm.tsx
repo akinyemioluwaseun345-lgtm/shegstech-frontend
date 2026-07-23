@@ -10,9 +10,10 @@ interface FormData {
 interface CalculatorFormProps {
   onCalculate?: (data: FormData) => void;
   loading?: boolean;
+  onClose?: () => void;
 }
 
-export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loading = false }) => {
+export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loading = false, onClose }) => {
   const [formData, setFormData] = useState<FormData>({
     deviceModel: '',
     storage: '',
@@ -48,18 +49,18 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loa
   };
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-md">
-      <h3 className="text-lg font-semibold text-gray-900 mb-6">Device Valuation</h3>
+    <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-6 shadow-sm">
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Device Valuation</h3>
 
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Device Model Search */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Device Model
           </label>
           <div className="relative">
             <svg
-              className="absolute left-3 top-2.5 w-5 h-5 text-gray-400"
+              className="absolute left-3 top-2.5 w-5 h-5 text-gray-400 dark:text-gray-500"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -75,8 +76,8 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loa
               type="text"
               value={formData.deviceModel}
               onChange={(e) => handleChange('deviceModel', e.target.value)}
-              placeholder="Search for any phone, laptop, or tablet..."
-              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-smooth"
+              placeholder="Search device..."
+              className="w-full pl-10 pr-3 py-2 border border-stone-300 dark:border-zinc-700 rounded-lg bg-white dark:bg-zinc-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-smooth"
               required
             />
           </div>
@@ -84,13 +85,13 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loa
 
         {/* Storage Capacity */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Storage Capacity
           </label>
           <select
             value={formData.storage}
             onChange={(e) => handleChange('storage', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-smooth appearance-none"
+            className="w-full px-3 py-2 border border-stone-300 dark:border-zinc-700 rounded-lg bg-white dark:bg-zinc-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-smooth appearance-none"
             required
           >
             <option value="">Select storage...</option>
@@ -104,7 +105,7 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loa
 
         {/* Device Condition */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Device Condition
           </label>
           <div className="flex gap-2">
@@ -116,7 +117,7 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loa
                 className={`flex-1 py-2 px-3 rounded-lg border transition-smooth text-sm font-medium ${
                   formData.condition === cond
                     ? 'bg-indigo-600 border-indigo-600 text-white'
-                    : 'bg-white border-gray-300 text-gray-700 hover:border-indigo-300'
+                    : 'bg-white dark:bg-zinc-800 border-stone-300 dark:border-zinc-700 text-gray-700 dark:text-gray-300 hover:border-indigo-300'
                 }`}
               >
                 {cond}
@@ -127,17 +128,17 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loa
 
         {/* Vendor Price */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Vendor Price (₦)
           </label>
           <div className="relative">
-            <span className="absolute left-3 top-2.5 text-gray-500 text-sm font-medium">₦</span>
+            <span className="absolute left-3 top-2.5 text-gray-500 dark:text-gray-400 text-sm font-medium">₦</span>
             <input
               type="number"
               value={formData.vendorPrice}
               onChange={(e) => handleChange('vendorPrice', e.target.value)}
               placeholder="0.00"
-              className="w-full pl-6 pr-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-smooth"
+              className="w-full pl-6 pr-3 py-2 border border-stone-300 dark:border-zinc-700 rounded-lg bg-white dark:bg-zinc-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-smooth"
               required
             />
           </div>
@@ -161,8 +162,8 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loa
       </form>
 
       {/* Info Section */}
-      <div className="mt-6 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-        <p className="text-xs text-blue-800">
+      <div className="mt-6 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-900/40 rounded-lg">
+        <p className="text-xs text-blue-800 dark:text-blue-300">
           ℹ️ <span className="font-medium">Real-time pricing data</span> based on current market analysis and device specifications.
         </p>
       </div>
