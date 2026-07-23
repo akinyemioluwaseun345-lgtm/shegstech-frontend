@@ -24,9 +24,9 @@ interface ResultCardProps {
 
 const VerdictBadge: React.FC<{ verdict: 'LEGIT' | 'SCAM' | 'OVERPRICED' }> = ({ verdict }) => {
   const variants = {
-    LEGIT: 'bg-emerald-100 text-emerald-800 border-emerald-300',
-    SCAM: 'bg-red-100 text-red-800 border-red-300',
-    OVERPRICED: 'bg-amber-100 text-amber-800 border-amber-300',
+    LEGIT: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-400 border-emerald-300 dark:border-emerald-700',
+    SCAM: 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 border-red-300 dark:border-red-700',
+    OVERPRICED: 'bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400 border-amber-300 dark:border-amber-700',
   };
 
   return (
@@ -75,8 +75,8 @@ const ScoreCircle: React.FC<{ score: number }> = ({ score }) => {
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-3xl font-bold text-gray-900">{score.toFixed(1)}</span>
-        <span className="text-xs text-gray-500">/10</span>
+        <span className="text-3xl font-bold text-gray-900 dark:text-white">{score.toFixed(1)}</span>
+        <span className="text-xs text-gray-500 dark:text-gray-300">/10</span>
       </div>
     </div>
   );

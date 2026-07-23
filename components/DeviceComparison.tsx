@@ -84,14 +84,14 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-      <h3 className="text-lg font-semibold text-gray-900 mb-6">Recent Device Comparisons</h3>
+    <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-6 shadow-sm">
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Recent Device Comparisons</h3>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {devices.map((device) => (
           <div
             key={device.id}
-            className={`border-2 rounded-lg p-4 transition-smooth hover:shadow-md ${getVerdictColor(device.verdict)}`}
+            className={`border-2 rounded-lg p-4 transition-smooth hover:shadow-md dark:bg-zinc-800 ${getVerdictColor(device.verdict)}`}
           >
             {/* Header */}
             <div className="flex items-start justify-between mb-4">
@@ -108,8 +108,8 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
                   )}
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 text-sm">{device.name}</h4>
-                  <p className="text-xs text-gray-500">{device.storage}</p>
+                  <h4 className="font-semibold text-gray-900 dark:text-white text-sm">{device.name}</h4>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{device.storage}</p>
                 </div>
               </div>
               <span className={`px-2 py-1 rounded text-xs font-medium border ${getVerdictBadgeColor(device.verdict)}`}>
@@ -129,18 +129,29 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
               </div>
             </div>
 
-            {/* Condition */}
-            <div className="flex items-center justify-between text-xs">
-              <span className="text-gray-600">Condition:</span>
-              <span className="font-medium text-gray-700">{device.condition}</span>
+            {/* Our Price */}
+            <div className="mb-4 p-2 bg-white bg-opacity-60 rounded">
+              <p className="text-xs text-gray-600 mb-1">Our Price</p>
+              <p className="font-semibold text-indigo-700 text-sm">₦{(device.marketValue * 0.95 / 1000000).toFixed(2)}M</p>
             </div>
+
+            {/* Condition */}
+            <div className="flex items-center justify-between text-xs mb-4">
+              <span className="text-gray-600 dark:text-gray-400">Condition:</span>
+              <span className="font-medium text-gray-700 dark:text-gray-300">{device.condition}</span>
+            </div>
+
+            {/* Buy Button */}
+            <button className="w-full px-3 py-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-900/30 transition-smooth">
+              Buy from SHEGSTECH
+            </button>
           </div>
         ))}
       </div>
 
       {/* Quick Stats */}
-      <div className="mt-6 pt-6 border-t border-gray-200">
-        <h4 className="text-sm font-semibold text-gray-900 mb-4">Quick Statistics</h4>
+      <div className="mt-6 pt-6 border-t border-stone-200 dark:border-zinc-800">
+        <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Quick Statistics</h4>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { label: 'Avg Market Value', value: '₦1.38M', subtext: 'Across all devices' },

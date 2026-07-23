@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { User, Sun, Moon } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
+import React, { useState } from 'react';
+import { User } from 'lucide-react';
 
 interface HeaderProps {
   onMenuToggle?: () => void;
@@ -8,29 +7,6 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-  const [isDark, setIsDark] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  
-  // Get theme from context, with fallback
-  let themeContext = null;
-  try {
-    themeContext = useTheme();
-  } catch {
-    // ThemeProvider not available during SSR
-  }
-  
-  useEffect(() => {
-    if (themeContext) {
-      setIsDark(themeContext.isDark);
-    }
-    setMounted(true);
-  }, [themeContext]);
-  
-  const toggleTheme = () => {
-    if (themeContext) {
-      themeContext.toggleTheme();
-    }
-  };
 
   return (
     <header className="sticky top-0 z-40 bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-zinc-800 shadow-sm">
@@ -76,19 +52,6 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
             </svg>
             <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-          </button>
-
-          {/* Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            className="p-1.5 sm:p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg transition-smooth"
-            aria-label="Toggle theme"
-          >
-            {isDark ? (
-              <Sun className="w-4 h-4 sm:w-5 sm:h-5" />
-            ) : (
-              <Moon className="w-4 h-4 sm:w-5 sm:h-5" />
-            )}
           </button>
 
           {/* Profile Menu */}
