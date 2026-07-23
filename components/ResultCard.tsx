@@ -85,11 +85,11 @@ const ScoreCircle: React.FC<{ score: number }> = ({ score }) => {
 export const ResultCard: React.FC<ResultCardProps> = ({ data, loading }) => {
   if (loading) {
     return (
-      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+      <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-6 shadow-sm">
         <div className="flex items-center justify-center h-96">
           <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-gray-200 border-t-indigo-600 rounded-full animate-spin" />
-            <p className="text-gray-600 text-sm">Analyzing market data...</p>
+            <div className="w-12 h-12 border-4 border-gray-200 dark:border-zinc-700 border-t-indigo-600 rounded-full animate-spin" />
+            <p className="text-gray-600 dark:text-gray-400 text-sm">Analyzing market data...</p>
           </div>
         </div>
       </div>
@@ -98,12 +98,12 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading }) => {
 
   if (!data) {
     return (
-      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+      <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-6 shadow-sm">
         <div className="flex flex-col items-center justify-center h-96 text-center">
-          <svg className="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-16 h-16 text-gray-300 dark:text-gray-700 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <p className="text-gray-500 text-sm">Enter device details and click Calculate to see results</p>
+          <p className="text-gray-500 dark:text-gray-400 text-sm">Enter device details and click Calculate to see results</p>
         </div>
       </div>
     );
@@ -112,8 +112,8 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading }) => {
   return (
     <div className="space-y-4 overflow-hidden">
       {/* Score Card */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-        <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-4">Value Score</h3>
+      <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-6 shadow-sm">
+        <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-4">Value Score</h3>
         <ScoreCircle score={data.score} />
         <div className="text-center">
           <p className="text-xs text-gray-500">Measures price fairness and seller reliability.</p>
@@ -121,8 +121,8 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading }) => {
       </div>
 
       {/* Verdict Card */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-        <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-4">Verdict</h3>
+      <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-6 shadow-sm">
+        <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-4">Verdict</h3>
         <div className="flex justify-center mb-4">
           <VerdictBadge verdict={data.verdict} />
         </div>
@@ -132,8 +132,8 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading }) => {
       </div>
 
       {/* Market Intelligence */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-        <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-4">Market Intelligence</h3>
+      <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-6 shadow-sm">
+        <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-4">Market Intelligence</h3>
 
         <div className="space-y-3">
           {/* Market Value */}
@@ -197,8 +197,8 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading }) => {
       </div>
 
       {/* Trend Chart */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-        <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-4">Market Trend</h3>
+      <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-6 shadow-sm">
+        <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-4">Market Trend</h3>
         <div className="flex gap-2">
           {/* Y-axis labels */}
           <div className="flex flex-col justify-between text-xs text-gray-500 pr-2">

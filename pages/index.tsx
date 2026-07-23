@@ -82,7 +82,7 @@ export default function Home() {
 
       <DashboardLayout>
         {/* Page Header */}
-        <div className="px-4 md:px-6 py-8 border-b border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+        <div className="px-4 md:px-6 py-8 border-b border-stone-200 dark:border-zinc-800 bg-stone-50 dark:bg-zinc-900">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Naira Value Calculator</h1>
           <p className="text-gray-600 dark:text-gray-400">
             Evaluate vendor pricing against estimated market value. Get instant analysis and verdicts.
@@ -90,7 +90,7 @@ export default function Home() {
         </div>
 
         {/* Main Content */}
-        <div className="px-4 md:px-6 py-8 bg-gray-50 dark:bg-zinc-950">
+        <div className="px-4 md:px-6 py-8 bg-stone-50 dark:bg-zinc-950">
           {/* Desktop: 3-column layout (1-2 split) */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             {/* Left Column: Calculator Form */}
@@ -112,7 +112,7 @@ export default function Home() {
           {/* Additional Info Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* How It Works */}
-            <div className="bg-white dark:bg-zinc-900 rounded-lg border border-gray-200 dark:border-zinc-800 p-6 shadow-sm">
+            <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-6 shadow-sm">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">How It Works</h3>
               <ol className="space-y-3">
                 {[
@@ -133,7 +133,7 @@ export default function Home() {
             </div>
 
             {/* Key Features */}
-            <div className="bg-white dark:bg-zinc-900 rounded-lg border border-gray-200 dark:border-zinc-800 p-6 shadow-sm">
+            <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-6 shadow-sm">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Key Features</h3>
               <ul className="space-y-3">
                 {[
