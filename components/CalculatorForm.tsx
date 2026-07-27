@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ChevronUp, ChevronDown } from 'lucide-react';
 
 interface FormData {
   deviceModel: string;
@@ -10,10 +11,11 @@ interface FormData {
 interface CalculatorFormProps {
   onCalculate?: (data: FormData) => void;
   loading?: boolean;
-  onClose?: () => void;
+  onCollapse?: () => void;
+  isCollapsed?: boolean;
 }
 
-export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loading = false, onClose }) => {
+export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loading = false, onCollapse, isCollapsed = false }) => {
   const [formData, setFormData] = useState<FormData>({
     deviceModel: '',
     storage: '',
@@ -48,9 +50,32 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loa
     }
   };
 
+  if (isCollapsed) {
+    return (
+      <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-4 shadow-sm">
+        <button
+          onClick={onCollapse}
+          className="w-full flex items-center justify-between hover:opacity-80 transition-opacity"
+        >
+          <span className="text-sm font-semibold text-gray-900 dark:text-white">Device Valuation</span>
+          <ChevronDown className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-6 shadow-sm">
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Device Valuation</h3>
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Device Valuation</h3>
+        <button
+          onClick={onCollapse}
+          className="p-1 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded transition-colors"
+          aria-label="Collapse calculator"
+        >
+          <ChevronUp className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+        </button>
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Device Model Search */}

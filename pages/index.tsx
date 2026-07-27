@@ -33,6 +33,7 @@ export default function Home() {
     confidence: 92,
   });
   const [loading, setLoading] = useState(false);
+  const [isCalculatorCollapsed, setIsCalculatorCollapsed] = useState(false);
 
   const handleCalculate = async (formData: FormData) => {
     setLoading(true);
@@ -95,7 +96,12 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             {/* Left Column: Calculator Form */}
             <div className="lg:col-span-1">
-              <CalculatorForm onCalculate={handleCalculate} loading={loading} />
+              <CalculatorForm 
+                onCalculate={handleCalculate} 
+                loading={loading}
+                isCollapsed={isCalculatorCollapsed}
+                onCollapse={() => setIsCalculatorCollapsed(!isCalculatorCollapsed)}
+              />
             </div>
 
             {/* Right Column: Results */}

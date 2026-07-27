@@ -24,7 +24,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
           </button>
 
           <div className="flex items-center gap-0">
-            <span className="font-extrabold text-xs sm:text-lg tracking-tight text-gray-900 dark:text-white whitespace-nowrap">
+            <span className="font-black text-xs sm:text-lg tracking-tight text-gray-900 dark:text-white whitespace-nowrap">
               SHEGS<span className="text-indigo-600 dark:text-indigo-400">TECH</span>
             </span>
           </div>
