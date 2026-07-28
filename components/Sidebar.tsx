@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Sun, Moon } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -10,6 +11,7 @@ interface SidebarProps {
 interface NavItem {
   label: string;
   icon: React.ReactNode;
+  href?: string;
   active?: boolean;
   badge?: string | number;
 }
@@ -46,8 +48,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
     {
       title: 'Core Utilities',
       items: [
-        { label: 'Value Calculator', icon: null },
-        { label: 'Spec Comparator', icon: null },
+        { label: 'Value Calculator', icon: null, href: '/' },
+        { label: 'Spec Comparator', icon: null, href: '/spec-comparator' },
         { label: 'Market Radar', icon: null },
       ],
     },
@@ -110,11 +112,21 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
               <ul className="space-y-3">
                 {section.items.map((item, idx) => (
                   <li key={idx}>
-                    <button
-                      className="w-full text-left px-2 py-2 text-sm font-medium text-white hover:text-indigo-400 transition-colors"
-                    >
-                      {item.label}
-                    </button>
+                    {item.href ? (
+                      <Link
+                        href={item.href}
+                        onClick={onClose}
+                        className="w-full block text-left px-2 py-2 text-sm font-medium text-white hover:text-indigo-400 transition-colors"
+                      >
+                        {item.label}
+                      </Link>
+                    ) : (
+                      <button
+                        className="w-full text-left px-2 py-2 text-sm font-medium text-white hover:text-indigo-400 transition-colors"
+                      >
+                        {item.label}
+                      </button>
+                    )}
                   </li>
                 ))}
               </ul>
