@@ -50,7 +50,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
       items: [
         { label: 'Value Calculator', icon: null, href: '/' },
         { label: 'Spec Comparator', icon: null, href: '/spec-comparator' },
-        { label: 'Market Radar', icon: null },
+        { label: 'Market Radar', icon: null, href: '/market-radar' },
       ],
     },
     {
