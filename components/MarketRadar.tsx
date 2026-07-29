@@ -79,6 +79,7 @@ const computeWeeklyChange = (history: number[]) => {
 
 export const MarketRadar: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabValue>('trending');
+  const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -101,18 +102,25 @@ export const MarketRadar: React.FC = () => {
   );
 
   const filteredDevices = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+
+    const baseFiltered = devicesWithChange.filter((device) => {
+      if (!query) return true;
+      return device.name.toLowerCase().includes(query);
+    });
+
     if (activeTab === 'drops') {
-      return devicesWithChange
+      return baseFiltered
         .filter((device) => device.weeklyChange < 0)
         .sort((a, b) => a.weeklyChange - b.weeklyChange);
     }
     if (activeTab === 'gains') {
-      return devicesWithChange
+      return baseFiltered
         .filter((device) => device.weeklyChange > 0)
         .sort((a, b) => b.weeklyChange - a.weeklyChange);
     }
-    return [...devicesWithChange].sort((a, b) => Math.abs(b.weeklyChange) - Math.abs(a.weeklyChange));
-  }, [activeTab, devicesWithChange]);
+    return [...baseFiltered].sort((a, b) => Math.abs(b.weeklyChange) - Math.abs(a.weeklyChange));
+  }, [activeTab, devicesWithChange, searchQuery]);
 
   const totalDevices = devicesWithChange.length;
   const averageWeeklyChange = useMemo(() => {
@@ -161,22 +169,50 @@ export const MarketRadar: React.FC = () => {
             </div>
           </div>
 
-          <div className="rounded-full border border-[#262E42] bg-[#151B2C] px-1 py-1">
-            <div className="flex gap-2 overflow-x-auto whitespace-nowrap px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {tabs.map((tab) => (
+          <div className="space-y-3">
+            <div className="relative">
+              <span className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-[#9AA3B7]">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10.5 18C14.6421 18 18 14.6421 18 10.5C18 6.35786 14.6421 3 10.5 3C6.35786 3 3 6.35786 3 10.5C3 14.6421 6.35786 18 10.5 18Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M20.5 20.5L17 17" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="Search devices by name or brand"
+                className="w-full rounded-xl border border-[#262E42] bg-[#151B2C] py-2.5 pl-12 pr-10 text-xs text-[#F4F5F9] placeholder-[#9AA3B7] outline-none transition focus:border-[#6C63FF]"
+              />
+              {searchQuery.length > 0 && (
                 <button
-                  key={tab.value}
                   type="button"
-                  onClick={() => setActiveTab(tab.value)}
-                  className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition ${
-                    activeTab === tab.value
-                      ? 'bg-[#6C63FF] text-[#F4F5F9] shadow-[0_10px_30px_rgba(108,99,255,0.18)]'
-                      : 'text-[#9AA3B7] hover:text-[#F4F5F9]'
-                  }`}
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-[#262E42] p-1.5 text-[#9AA3B7] transition hover:text-[#F4F5F9]"
+                  aria-label="Clear search"
                 >
-                  {tab.label}
+                  ×
                 </button>
-              ))}
+              )}
+            </div>
+
+            <div className="rounded-full border border-[#262E42] bg-[#151B2C] px-1 py-1">
+              <div className="flex gap-2 overflow-x-auto whitespace-nowrap px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab.value}
+                    type="button"
+                    onClick={() => setActiveTab(tab.value)}
+                    className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition ${
+                      activeTab === tab.value
+                        ? 'bg-[#6C63FF] text-[#F4F5F9] shadow-[0_10px_30px_rgba(108,99,255,0.18)]'
+                        : 'text-[#9AA3B7] hover:text-[#F4F5F9]'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -251,8 +287,25 @@ export const MarketRadar: React.FC = () => {
               </div>
             ) : (
               <div className="rounded-3xl border border-dashed border-[#262E42] bg-[#151B2C] p-6 text-center text-[#9AA3B7]">
-                <div className="text-sm font-semibold text-[#F4F5F9]">No devices found</div>
-                <p className="mt-2 text-xs leading-5">Try a different filter to see the latest market movers.</p>
+                <div className="text-sm font-semibold text-[#F4F5F9]">
+                  {searchQuery
+                    ? `No market data found for '${searchQuery.trim()}'`
+                    : 'No devices found'}
+                </div>
+                <p className="mt-2 text-xs leading-5">
+                  {searchQuery
+                    ? 'Try another name or clear your search to see more results.'
+                    : 'Try a different filter to see the latest market movers.'}
+                </p>
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery('')}
+                    className="mt-4 inline-flex items-center rounded-full border border-[#6C63FF] bg-transparent px-4 py-2 text-xs font-semibold text-[#6C63FF] transition hover:bg-[#1e2540]"
+                  >
+                    Clear Search
+                  </button>
+                )}
               </div>
             )}
           </div>
