@@ -57,10 +57,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
       title: 'Media & Market',
       items: [
         { label: 'Gadgets Reviews', icon: null, href: '/gadgets-reviews' },
-        { label: 'Verified Vendors', icon: null },
+    { label: 'Verified Vendors', icon: null, href: '/verified-vendors' },
         { label: 'Hot Deals', icon: null },
       ],
     },
+
     {
       title: 'User Engine',
       items: [
