@@ -58,7 +58,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
       items: [
         { label: 'Gadgets Reviews', icon: null, href: '/gadgets-reviews' },
     { label: 'Verified Vendors', icon: null, href: '/verified-vendors' },
-        { label: 'Hot Deals', icon: null },
+    { label: 'Hot Deals', icon: null, href: '/hot-deals' },
       ],
     },
 
