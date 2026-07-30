@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import Link from 'next/link';
 import { User } from 'lucide-react';
 
 interface HeaderProps {
@@ -6,8 +7,6 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
-  const [showProfileMenu, setShowProfileMenu] = useState(false);
-
   return (
     <header className="sticky top-0 z-40 bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-zinc-800 shadow-sm">
       <div className="flex items-center justify-between px-3 sm:px-4 md:px-6 h-16">
@@ -54,32 +53,12 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
             <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
           </button>
 
-          {/* Profile Menu */}
-          <div className="relative">
-            <button
-              onClick={() => setShowProfileMenu(!showProfileMenu)}
-              className="flex items-center gap-2 p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg transition-smooth"
-            >
-              <div className="w-8 h-8 bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded-full flex items-center justify-center hover:bg-gray-200 dark:hover:bg-zinc-700 transition-smooth">
-                <User className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-400" />
-              </div>
-            </button>
-
-            {/* Profile Dropdown */}
-            {showProfileMenu && (
-              <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg shadow-lg py-1 z-50">
-                <button className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-700 transition-smooth">
-                  Profile
-                </button>
-                <button className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-700 transition-smooth">
-                  Settings
-                </button>
-                <hr className="my-1 border-gray-200 dark:border-zinc-700" />
-                <button className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-smooth">
-                  Sign Out
-                </button>
-              </div>
-            )}
+          <div>
+           <Link href="/profile" className="flex items-center gap-2 p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg transition-smooth">
+             <div className="w-8 h-8 bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded-full flex items-center justify-center hover:bg-gray-200 dark:hover:bg-zinc-700 transition-smooth">
+               <User className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-400" />
+             </div>
+           </Link>
           </div>
         </div>
       </div>
