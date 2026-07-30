@@ -61,11 +61,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
     { label: 'Hot Deals', icon: null, href: '/hot-deals' },
       ],
     },
+    {
+      title: 'My Stuff',
+      items: [
+    { label: 'My Garage (Saved Items)', icon: null, href: '/my-garage' },
+      ],
+    },
 
     {
       title: 'User Engine',
       items: [
-        { label: 'My Garage (Saved Items)', icon: null },
         { label: 'Settings', icon: null },
         { label: 'Sign Out', icon: null },
       ],
