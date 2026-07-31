@@ -1,13 +1,33 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export const Settings: React.FC = () => {
+  const router = useRouter();
   const [fullName, setFullName] = useState('Akinyemi Oluwaseun');
   const [email, setEmail] = useState('seun@shegstech.com');
   const [phone, setPhone] = useState('+234 707 146 8009');
   const [marketAlerts, setMarketAlerts] = useState(true);
   const [whatsappAlerts, setWhatsappAlerts] = useState(true);
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    if (!saved) return;
+    const timer = window.setTimeout(() => setSaved(false), 2000);
+    return () => window.clearTimeout(timer);
+  }, [saved]);
+
+  const handleSave = () => {
+    setSaved(true);
+  };
+
+  const handleSignOut = () => {
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('shegstech-auth-state', 'logged-out');
+    }
+    router.push('/auth/login');
+  };
 
   return (
     <div className="max-w-[430px] mx-auto w-full px-4 py-4 space-y-4 text-[#F4F5F9]" style={{ fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif' }}>
@@ -101,9 +121,23 @@ export const Settings: React.FC = () => {
         </div>
       </div>
 
-      <button className="w-full rounded-xl bg-[#6C63FF] py-3 text-center text-xs font-semibold text-white transition-colors hover:bg-[#5b52e0]">
-        Save Changes
+      <button
+        type="button"
+        onClick={handleSave}
+        className={`w-full rounded-xl py-3 text-center text-xs font-semibold transition-colors ${saved ? 'bg-[#10B981] text-white' : 'bg-[#6C63FF] text-white hover:bg-[#5b52e0]'}`}
+      >
+        {saved ? '✓ Changes Saved Successfully!' : 'Save Changes'}
       </button>
+
+      <div className="mt-4 border-t border-[#262E42]/60 pt-4">
+        <button
+          type="button"
+          onClick={handleSignOut}
+          className="w-full rounded-xl border border-[#EF4444]/20 bg-[#EF4444]/10 p-3.5 text-center text-xs font-semibold text-[#EF4444] transition-colors hover:bg-[#EF4444]/20"
+        >
+          Sign Out of Account
+        </button>
+      </div>
     </div>
   );
 };

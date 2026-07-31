@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Sun, Moon } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -14,6 +15,7 @@ interface NavItem {
   href?: string;
   active?: boolean;
   badge?: string | number;
+  onClick?: () => void;
 }
 
 interface NavSection {
@@ -22,6 +24,7 @@ interface NavSection {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
+  const router = useRouter();
   const [isDark, setIsDark] = useState(false);
   
   // Get theme from context, with fallback
@@ -44,6 +47,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
     }
   };
 
+  const handleSignOut = () => {
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('shegstech-auth-state', 'logged-out');
+    }
+    onClose?.();
+    router.push('/auth/login');
+  };
+
   const navSections: NavSection[] = [
     {
       title: 'Core Utilities',
@@ -57,22 +68,22 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
       title: 'Media & Market',
       items: [
         { label: 'Gadgets Reviews', icon: null, href: '/gadgets-reviews' },
-    { label: 'Verified Vendors', icon: null, href: '/verified-vendors' },
-    { label: 'Hot Deals', icon: null, href: '/hot-deals' },
+        { label: 'Verified Vendors', icon: null, href: '/verified-vendors' },
+        { label: 'Hot Deals', icon: null, href: '/hot-deals' },
       ],
     },
     {
       title: 'My Stuff',
       items: [
-    { label: 'My Garage (Saved Items)', icon: null, href: '/my-garage' },
+        { label: 'My Garage (Saved Items)', icon: null, href: '/my-garage' },
       ],
     },
 
     {
       title: 'User Engine',
       items: [
-        { label: 'Settings', icon: null },
-        { label: 'Sign Out', icon: null },
+        { label: 'Settings', icon: null, href: '/settings' },
+        { label: 'Sign Out', icon: null, onClick: handleSignOut },
       ],
     },
   ];
@@ -118,7 +129,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
               <ul className="space-y-3">
                 {section.items.map((item, idx) => (
                   <li key={idx}>
-                    {item.href ? (
+                    {item.onClick ? (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          item.onClick?.();
+                          onClose?.();
+                        }}
+                        className="w-full text-left px-2 py-2 text-sm font-medium text-white hover:text-indigo-400 transition-colors"
+                      >
+                        {item.label}
+                      </button>
+                    ) : item.href ? (
                       <Link
                         href={item.href}
                         onClick={onClose}
