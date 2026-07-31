@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { AuthModal } from './AuthModal';
 
 interface GarageDevice {
   id: string;
@@ -47,13 +48,56 @@ const formatNaira = (v: number) => `₦${v.toLocaleString('en-NG')}`;
 
 export const MyGarage: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<Category>('All Devices (3)');
+  const [garageDevices, setGarageDevices] = useState(mockGarageDevices);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authMessage, setAuthMessage] = useState('Create a SHEGSTECH account or log in to add gadgets to your garage and request trade-ins.');
+  const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
-    if (activeCategory === 'All Devices (3)') return mockGarageDevices;
-    return mockGarageDevices.filter((d) => d.category === activeCategory);
-  }, [activeCategory]);
+    if (activeCategory === 'All Devices (3)') return garageDevices;
+    return garageDevices.filter((d) => d.category === activeCategory);
+  }, [activeCategory, garageDevices]);
 
-  const totalValue = useMemo(() => mockGarageDevices.reduce((s, d) => s + d.value, 0), []);
+  const totalValue = useMemo(() => garageDevices.reduce((s, d) => s + d.value, 0), [garageDevices]);
+
+  const requestAuth = (message: string, action: () => void) => {
+    if (!isLoggedIn) {
+      setAuthMessage(message);
+      setPendingAction(() => action);
+      setAuthModalOpen(true);
+      return;
+    }
+
+    action();
+  };
+
+  const handleAddGadget = () => {
+    const newDevice: GarageDevice = {
+      id: `demo-gadget-${Date.now()}`,
+      title: 'New Gadget Added to Garage',
+      category: 'Daily Drivers',
+      batteryHealth: 100,
+      color: 'Midnight',
+      value: 400000,
+      healthText: 'Battery Health: 100% • Midnight',
+    };
+
+    setGarageDevices((current) => [newDevice, ...current]);
+    setStatusMessage('Added a new gadget to your SHEGSTECH garage.');
+  };
+
+  const handleTradeInRequest = (device: GarageDevice) => {
+    setStatusMessage(`Trade-in quote requested for ${device.title}.`);
+  };
+
+  const handleDemoAuth = () => {
+    setIsLoggedIn(true);
+    setAuthModalOpen(false);
+    pendingAction?.();
+    setPendingAction(null);
+  };
 
   return (
     <div className="max-w-[430px] mx-auto w-full px-4 py-4 space-y-4 text-[#F4F5F9]" style={{ fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif' }}>
@@ -74,7 +118,10 @@ export const MyGarage: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2 pt-1">
-          <button className="flex-1 bg-[#6C63FF] hover:bg-[#5b52e0] text-white text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-md">
+          <button
+            onClick={() => requestAuth('Create a SHEGSTECH account or log in to add gadgets to your garage and track valuations.', () => handleAddGadget())}
+            className="flex-1 bg-[#6C63FF] hover:bg-[#5b52e0] text-white text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-md"
+          >
             + Add Gadget
           </button>
           <button className="bg-[#151B2C] border border-[#262E42] text-[#F4F5F9] text-xs font-semibold px-3.5 py-2.5 rounded-xl hover:bg-[#262E42] transition-colors">
@@ -102,6 +149,12 @@ export const MyGarage: React.FC = () => {
         })}
       </div>
 
+      {statusMessage && (
+        <div className="rounded-xl border border-[#10B981]/20 bg-[#10B981]/10 px-3 py-2 text-xs text-[#10B981]">
+          {statusMessage}
+        </div>
+      )}
+
       {/* Devices list */}
       <div className="space-y-3.5">
         {filtered.length > 0 ? (
@@ -125,7 +178,10 @@ export const MyGarage: React.FC = () => {
               </div>
 
               <div className="flex items-center gap-2 pt-0.5">
-                <button className="flex-1 bg-[#6C63FF]/15 hover:bg-[#6C63FF]/25 text-[#6C63FF] border border-[#6C63FF]/30 text-xs font-semibold py-2 rounded-xl text-center transition-colors">
+                <button
+                  onClick={() => requestAuth('Create a SHEGSTECH account or log in to request a trade-in quote for this device.', () => handleTradeInRequest(d))}
+                  className="flex-1 bg-[#6C63FF]/15 hover:bg-[#6C63FF]/25 text-[#6C63FF] border border-[#6C63FF]/30 text-xs font-semibold py-2 rounded-xl text-center transition-colors"
+                >
                   Request Trade-In →
                 </button>
                 <button className="bg-[#1E2638] text-[#F4F5F9] text-xs font-semibold px-3 py-2 rounded-xl hover:bg-[#262E42] transition-colors">
@@ -143,6 +199,14 @@ export const MyGarage: React.FC = () => {
           </div>
         )}
       </div>
+
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        subtitle={authMessage}
+        onDemo={handleDemoAuth}
+        returnTo="/my-garage"
+      />
     </div>
   );
 };

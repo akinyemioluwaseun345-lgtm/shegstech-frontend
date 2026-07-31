@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { AuthModal } from './AuthModal';
 
 interface Vendor {
   id: string;
@@ -59,6 +60,10 @@ const formatRating = (r: number) => r.toFixed(1);
 export const VerifiedVendors: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<Category>('All Hubs');
   const [searchQuery, setSearchQuery] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authMessage, setAuthMessage] = useState('Create a SHEGSTECH account or log in to contact this vendor hub and lock in your support.');
+  const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
 
   const filteredVendors = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
@@ -73,6 +78,30 @@ export const VerifiedVendors: React.FC = () => {
       return matchesCategory && matchesSearch;
     });
   }, [activeCategory, searchQuery]);
+
+  const requestAuth = (message: string, action: () => void) => {
+    if (!isLoggedIn) {
+      setAuthMessage(message);
+      setPendingAction(() => action);
+      setAuthModalOpen(true);
+      return;
+    }
+
+    action();
+  };
+
+  const contactVendorHub = (vendor: Vendor) => {
+    const message = `Hello SHEGSTECH! I want to contact ${vendor.name} about available stock and support.`;
+    const url = `https://wa.me/2348030000000?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleDemoAuth = () => {
+    setIsLoggedIn(true);
+    setAuthModalOpen(false);
+    pendingAction?.();
+    setPendingAction(null);
+  };
 
   return (
     <div className="max-w-[430px] mx-auto w-full px-4 py-4 space-y-4 text-[#F4F5F9]" style={{ fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif' }}>
@@ -168,7 +197,15 @@ export const VerifiedVendors: React.FC = () => {
               </div>
 
               <div className="flex items-center gap-2 pt-1">
-                <button className="flex-1 bg-[#6C63FF] hover:bg-[#5b52e0] text-white text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-colors">
+                <button
+                  onClick={() =>
+                    requestAuth(
+                      'Create a SHEGSTECH account or log in to contact this vendor hub and lock in your support.',
+                      () => contactVendorHub(vendor)
+                    )
+                  }
+                  className="flex-1 bg-[#6C63FF] hover:bg-[#5b52e0] text-white text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-colors"
+                >
                   Contact SHEGSTECH Hub
                 </button>
                 <button className="bg-[#1E2638] border border-[#262E42] text-[#F4F5F9] text-xs font-semibold px-3 py-2.5 rounded-xl hover:bg-[#262E42] transition-colors">
@@ -187,6 +224,14 @@ export const VerifiedVendors: React.FC = () => {
           </div>
         )}
       </div>
+
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        subtitle={authMessage}
+        onDemo={handleDemoAuth}
+        returnTo="/verified-vendors"
+      />
     </div>
   );
 };

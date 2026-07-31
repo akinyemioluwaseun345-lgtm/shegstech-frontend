@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { AuthModal } from './AuthModal';
 
 interface Deal {
   id: string;
@@ -91,6 +92,10 @@ export const HotDeals: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<Category>('All Deals');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'savings' | 'price-asc' | 'price-desc' | 'ending-soon'>('savings');
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authMessage, setAuthMessage] = useState('Create a SHEGSTECH account or log in to claim this Hot Deal and lock in your discount.');
+  const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
 
   const maxStock = useMemo(() => Math.max(...mockDeals.map((d) => d.stockLeft), 1), []);
 
@@ -119,6 +124,30 @@ export const HotDeals: React.FC = () => {
 
     return list;
   }, [activeCategory, searchQuery, sortBy]);
+
+  const requestAuth = (message: string, action: () => void) => {
+    if (!isLoggedIn) {
+      setAuthMessage(message);
+      setPendingAction(() => action);
+      setAuthModalOpen(true);
+      return;
+    }
+
+    action();
+  };
+
+  const openWhatsAppDeal = (deal: Deal) => {
+    const message = `Hello SHEGSTECH! I want to claim the deal: ${deal.title} for ${formatNaira(deal.dealPrice)}.`;
+    const url = `https://wa.me/2348030000000?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleDemoAuth = () => {
+    setIsLoggedIn(true);
+    setAuthModalOpen(false);
+    pendingAction?.();
+    setPendingAction(null);
+  };
 
   return (
     <div className="max-w-[430px] mx-auto w-full px-4 py-4 space-y-4 text-[#F4F5F9]" style={{ fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif' }}>
@@ -218,7 +247,15 @@ export const HotDeals: React.FC = () => {
                 </div>
 
                 <div className="pt-1">
-                  <button className="w-full bg-[#6C63FF] hover:bg-[#5b52e0] text-white text-xs font-semibold py-2.5 rounded-xl text-center flex items-center justify-center gap-1.5 transition-colors">
+                  <button
+                    onClick={() =>
+                      requestAuth(
+                        'Create a SHEGSTECH account or log in to claim this Hot Deal and lock in your discount.',
+                        () => openWhatsAppDeal(deal)
+                      )
+                    }
+                    className="w-full bg-[#6C63FF] hover:bg-[#5b52e0] text-white text-xs font-semibold py-2.5 rounded-xl text-center flex items-center justify-center gap-1.5 transition-colors"
+                  >
                     Claim Deal via WhatsApp →
                   </button>
                 </div>
@@ -235,6 +272,14 @@ export const HotDeals: React.FC = () => {
           </div>
         )}
       </div>
+
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        subtitle={authMessage}
+        onDemo={handleDemoAuth}
+        returnTo="/hot-deals"
+      />
     </div>
   );
 };
