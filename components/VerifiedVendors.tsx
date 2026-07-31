@@ -92,7 +92,7 @@ export const VerifiedVendors: React.FC = () => {
 
   const contactVendorHub = (vendor: Vendor) => {
     const message = `Hello SHEGSTECH! I want to contact ${vendor.name} about available stock and support.`;
-    const url = `https://wa.me/2348030000000?text=${encodeURIComponent(message)}`;
+    const url = `https://wa.me/2347071468009?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
