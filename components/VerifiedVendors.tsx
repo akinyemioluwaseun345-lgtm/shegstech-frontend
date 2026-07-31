@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { AuthModal } from './AuthModal';
+import { HubStockModal } from './HubStockModal';
 
 interface Vendor {
   id: string;
@@ -64,6 +65,8 @@ export const VerifiedVendors: React.FC = () => {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authMessage, setAuthMessage] = useState('Create a SHEGSTECH account or log in to contact this vendor hub and lock in your support.');
   const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
+  const [hubStockOpen, setHubStockOpen] = useState(false);
+  const [selectedHub, setSelectedHub] = useState<string | undefined>(undefined);
 
   const filteredVendors = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
@@ -208,7 +211,13 @@ export const VerifiedVendors: React.FC = () => {
                 >
                   Contact SHEGSTECH Hub
                 </button>
-                <button className="bg-[#1E2638] border border-[#262E42] text-[#F4F5F9] text-xs font-semibold px-3 py-2.5 rounded-xl hover:bg-[#262E42] transition-colors">
+                <button
+                  onClick={() => {
+                    setSelectedHub(vendor.name);
+                    setHubStockOpen(true);
+                  }}
+                  className="bg-[#1E2638] border border-[#262E42] text-[#F4F5F9] text-xs font-semibold px-3 py-2.5 rounded-xl hover:bg-[#262E42] transition-colors"
+                >
                   View Hub Stock
                 </button>
               </div>
@@ -232,6 +241,8 @@ export const VerifiedVendors: React.FC = () => {
         onDemo={handleDemoAuth}
         returnTo="/verified-vendors"
       />
+
+      <HubStockModal isOpen={hubStockOpen} onClose={() => setHubStockOpen(false)} hubName={selectedHub} />
     </div>
   );
 };
