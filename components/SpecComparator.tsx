@@ -99,6 +99,11 @@ const chipsetRank: Record<string, number> = {
   'MediaTek Dimensity 7200': 2,
 };
 
+const getComparatorHref = (device: Device) => {
+  const message = `Hello SHEGSTECH, I am interested in buying the ${device.name} from the Spec Comparator.`;
+  return `https://wa.me/2347071468009?text=${encodeURIComponent(message)}`;
+};
+
 const specRows: SpecRow[] = [
   {
     label: 'Display',
@@ -438,12 +443,17 @@ export const SpecComparator: React.FC = () => {
 
       {hasComparison && (
         <div className="grid gap-3 sm:grid-cols-2">
-          <button className="rounded-full border border-indigo-500/60 bg-transparent px-5 py-3 text-sm font-semibold text-indigo-300 transition hover:bg-indigo-500/10">
-            Buy from SHEGSTECH
-          </button>
-          <button className="rounded-full border border-indigo-500/60 bg-transparent px-5 py-3 text-sm font-semibold text-indigo-300 transition hover:bg-indigo-500/10">
-            Buy from SHEGSTECH
-          </button>
+          {selectedDevices.map((device) => (
+            <a
+              key={device.id}
+              href={getComparatorHref(device)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full bg-[#6C63FF] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#5b52e0] cursor-pointer text-center"
+            >
+              Buy from SHEGSTECH
+            </a>
+          ))}
         </div>
       )}
     </div>

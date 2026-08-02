@@ -83,6 +83,11 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
     }
   };
 
+  const getBuyHref = (device: Device) => {
+    const message = `Hello SHEGSTECH, I want to buy the ${device.name} (${device.storage}) listed on the platform.`;
+    return `https://wa.me/2347071468009?text=${encodeURIComponent(message)}`;
+  };
+
   return (
     <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-6 shadow-sm">
       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Recent Device Comparisons</h3>
@@ -142,9 +147,14 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
             </div>
 
             {/* Buy Button */}
-            <button className="w-full px-3 py-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-900/30 transition-smooth">
+            <a
+              href={getBuyHref(device)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-900/30 transition-smooth"
+            >
               Buy from SHEGSTECH
-            </button>
+            </a>
           </div>
         ))}
       </div>
