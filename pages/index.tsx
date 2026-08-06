@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Head from 'next/head';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { CalculatorForm } from '../components/CalculatorForm';
@@ -33,9 +33,31 @@ export default function Home() {
     confidence: 92,
   });
   const [loading, setLoading] = useState(false);
+  const [pulse, setPulse] = useState(false);
+  const pulseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isCalculatorCollapsed, setIsCalculatorCollapsed] = useState(false);
 
+  useEffect(() => {
+    return () => {
+      if (pulseTimerRef.current) {
+        clearTimeout(pulseTimerRef.current);
+      }
+    };
+  }, []);
+
+  const triggerPulse = () => {
+    setPulse(true);
+    if (pulseTimerRef.current) {
+      clearTimeout(pulseTimerRef.current);
+    }
+    pulseTimerRef.current = setTimeout(() => {
+      setPulse(false);
+      pulseTimerRef.current = null;
+    }, 300);
+  };
+
   const handleCalculate = async (formData: FormData) => {
+    triggerPulse();
     setLoading(true);
     
     // Simulate API call with mock data
@@ -98,6 +120,7 @@ export default function Home() {
             <div className="lg:col-span-1">
               <CalculatorForm 
                 onCalculate={handleCalculate} 
+                onInputChange={triggerPulse}
                 loading={loading}
                 isCollapsed={isCalculatorCollapsed}
                 onCollapse={() => setIsCalculatorCollapsed(!isCalculatorCollapsed)}
@@ -106,7 +129,7 @@ export default function Home() {
 
             {/* Right Column: Results */}
             <div className="lg:col-span-2">
-              <ResultCard data={result} loading={loading} />
+              <ResultCard data={result} loading={loading} pulse={pulse} />
             </div>
           </div>
 

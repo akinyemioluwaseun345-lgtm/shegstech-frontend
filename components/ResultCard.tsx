@@ -20,13 +20,14 @@ const formatCurrency = (value: number): string => {
 interface ResultCardProps {
   data?: ResultData;
   loading?: boolean;
+  pulse?: boolean;
 }
 
 const VerdictBadge: React.FC<{ verdict: 'LEGIT' | 'SCAM' | 'OVERPRICED' }> = ({ verdict }) => {
   const variants = {
-    LEGIT: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-400 border-emerald-300 dark:border-emerald-700',
-    SCAM: 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 border-red-300 dark:border-red-700',
-    OVERPRICED: 'bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400 border-amber-300 dark:border-amber-700',
+    LEGIT: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-400 border-emerald-300 dark:border-emerald-700 ring-1 ring-emerald-200/50 shadow-lg shadow-emerald-500/10',
+    SCAM: 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 border-red-300 dark:border-red-700 ring-1 ring-rose-200/50 shadow-lg shadow-rose-500/10',
+    OVERPRICED: 'bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400 border-amber-300 dark:border-amber-700 ring-1 ring-amber-200/50 shadow-lg shadow-amber-500/10',
   };
 
   return (
@@ -82,10 +83,10 @@ const ScoreCircle: React.FC<{ score: number }> = ({ score }) => {
   );
 };
 
-export const ResultCard: React.FC<ResultCardProps> = ({ data, loading }) => {
+export const ResultCard: React.FC<ResultCardProps> = ({ data, loading, pulse }) => {
   if (loading) {
     return (
-      <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-6 shadow-sm">
+      <div className="bg-white dark:bg-zinc-900 rounded-xl border border-stone-200 dark:border-gray-800 p-6 shadow-sm transition-all duration-300 hover:border-gray-700 hover:shadow-xl hover:-translate-y-0.5">
         <div className="flex items-center justify-center h-96">
           <div className="flex flex-col items-center gap-4">
             <div className="w-12 h-12 border-4 border-gray-200 dark:border-zinc-700 border-t-indigo-600 rounded-full animate-spin" />
@@ -98,7 +99,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading }) => {
 
   if (!data) {
     return (
-      <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-6 shadow-sm">
+      <div className="bg-white dark:bg-zinc-900 rounded-xl border border-stone-200 dark:border-gray-800 p-6 shadow-sm">
         <div className="flex flex-col items-center justify-center h-96 text-center">
           <svg className="w-16 h-16 text-gray-300 dark:text-gray-700 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -112,7 +113,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading }) => {
   return (
     <div className="space-y-4 overflow-hidden">
       {/* Score Card */}
-      <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-6 shadow-sm">
+      <div className={`bg-white dark:bg-zinc-900 rounded-xl border border-stone-200 dark:border-gray-800 p-6 shadow-sm ${pulse ? 'animate-pulse-slow' : ''}`}>
         <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-4">Value Score</h3>
         <ScoreCircle score={data.score} />
         <div className="text-center">
@@ -121,7 +122,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading }) => {
       </div>
 
       {/* Verdict Card */}
-      <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-6 shadow-sm">
+      <div className={`bg-white dark:bg-zinc-900 rounded-xl border border-stone-200 dark:border-gray-800 p-6 shadow-sm transition-all duration-300 hover:border-gray-700 hover:shadow-xl hover:-translate-y-0.5 ${pulse ? 'animate-pulse-slow' : ''}`}>
         <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-4">Verdict</h3>
         <div className="flex justify-center mb-4">
           <VerdictBadge verdict={data.verdict} />
@@ -132,7 +133,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading }) => {
       </div>
 
       {/* Market Intelligence */}
-      <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-6 shadow-sm">
+      <div className="bg-white dark:bg-zinc-900 rounded-xl border border-stone-200 dark:border-gray-800 p-6 shadow-sm transition-all duration-300 hover:border-gray-700 hover:shadow-xl hover:-translate-y-0.5">
         <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-4">Market Intelligence</h3>
 
         <div className="space-y-3">
@@ -197,7 +198,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading }) => {
       </div>
 
       {/* Trend Chart */}
-      <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-6 shadow-sm">
+      <div className="bg-white dark:bg-zinc-900 rounded-xl border border-stone-200 dark:border-gray-800 p-6 shadow-sm transition-all duration-300 hover:border-gray-700 hover:shadow-xl hover:-translate-y-0.5">
         <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-4">Market Trend</h3>
         <div className="flex gap-2">
           {/* Y-axis labels */}

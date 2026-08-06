@@ -25,7 +25,7 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
       storage: '256GB',
       price: 1500000,
       marketValue: 1520000,
-      condition: 'New',
+      condition: 'Brand New',
       verdict: 'LEGIT',
       logoUrl: 'https://cdn.simpleicons.org/apple',
     },
@@ -35,7 +35,7 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
       storage: '256GB',
       price: 1200000,
       marketValue: 1180000,
-      condition: 'Like New',
+      condition: 'Open Box',
       verdict: 'OVERPRICED',
       logoUrl: 'https://cdn.simpleicons.org/samsung',
     },
@@ -45,7 +45,7 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
       storage: '128GB',
       price: 450000,
       marketValue: 480000,
-      condition: 'Good',
+      condition: 'UK Used',
       verdict: 'LEGIT',
       useIcon: true,
     },
@@ -55,7 +55,7 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
       storage: '256GB',
       price: 350000,
       marketValue: 320000,
-      condition: 'Fair',
+      condition: 'Nigerian Used',
       verdict: 'SCAM',
       logoUrl: 'https://cdn.simpleicons.org/xiaomi',
     },
@@ -89,26 +89,26 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
   };
 
   return (
-    <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-6 shadow-sm">
+    <div className="bg-white dark:bg-zinc-900 rounded-xl border border-stone-200 dark:border-gray-800 p-4 shadow-sm">
       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Recent Device Comparisons</h3>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {devices.map((device) => (
           <div
             key={device.id}
-            className={`border-2 rounded-lg p-4 transition-smooth hover:shadow-md dark:bg-zinc-800 ${getVerdictColor(device.verdict)}`}
+            className={`border-2 rounded-xl p-4 transition-all duration-200 hover:shadow-md dark:bg-zinc-800 dark:border-gray-800 ${getVerdictColor(device.verdict)}`}
           >
             {/* Header */}
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-start gap-3">
-                <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center border border-gray-200 shadow-sm">
+                <div className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center border border-gray-200 shadow-sm">
                   {device.useIcon ? (
-                    <Smartphone className="w-6 h-6 text-gray-700" />
+                    <Smartphone className="w-5 h-5 text-gray-700" />
                   ) : (
                     <img 
                       src={device.logoUrl} 
                       alt={device.name}
-                      className="w-7 h-7 object-contain"
+                      className="w-6 h-6 object-contain"
                     />
                   )}
                 </div>
@@ -124,18 +124,18 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
 
             {/* Details Grid */}
             <div className="grid grid-cols-2 gap-3 mb-4">
-              <div className="bg-white bg-opacity-60 rounded p-2">
+              <div className="bg-white bg-opacity-60 rounded-lg border border-gray-200 dark:border-gray-800 p-2 transition-all duration-300 hover:border-gray-700 hover:shadow-xl hover:-translate-y-0.5">
                 <p className="text-xs text-gray-600 mb-1">Vendor Price</p>
                 <p className="font-semibold text-gray-900 text-sm">₦{(device.price / 1000000).toFixed(2)}M</p>
               </div>
-              <div className="bg-white bg-opacity-60 rounded p-2">
+              <div className="bg-white bg-opacity-60 rounded-lg border border-gray-200 dark:border-gray-800 p-2 transition-all duration-300 hover:border-gray-700 hover:shadow-xl hover:-translate-y-0.5">
                 <p className="text-xs text-gray-600 mb-1">Market Value</p>
                 <p className="font-semibold text-gray-900 text-sm">₦{(device.marketValue / 1000000).toFixed(2)}M</p>
               </div>
             </div>
 
             {/* Our Price */}
-            <div className="mb-4 p-2 bg-white bg-opacity-60 rounded">
+            <div className="mb-4 p-2 bg-white bg-opacity-60 rounded-lg border border-gray-200 dark:border-gray-800">
               <p className="text-xs text-gray-600 mb-1">Our Price</p>
               <p className="font-semibold text-indigo-700 text-sm">₦{(device.marketValue * 0.95 / 1000000).toFixed(2)}M</p>
             </div>
@@ -151,7 +151,7 @@ export const DeviceComparison: React.FC<DeviceComparisonProps> = ({
               href={getBuyHref(device)}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-900/30 transition-smooth"
+              className="w-full inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-900/30 transition-all duration-200"
             >
               Buy from SHEGSTECH
             </a>

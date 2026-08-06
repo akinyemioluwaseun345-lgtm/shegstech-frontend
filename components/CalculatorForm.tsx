@@ -10,12 +10,13 @@ interface FormData {
 
 interface CalculatorFormProps {
   onCalculate?: (data: FormData) => void;
+  onInputChange?: (data: FormData) => void;
   loading?: boolean;
   onCollapse?: () => void;
   isCollapsed?: boolean;
 }
 
-export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loading = false, onCollapse, isCollapsed = false }) => {
+export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, onInputChange, loading = false, onCollapse, isCollapsed = false }) => {
   const [formData, setFormData] = useState<FormData>({
     deviceModel: '',
     storage: '',
@@ -34,13 +35,19 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loa
   ];
 
   const storageOptions = ['64GB', '128GB', '256GB', '512GB', '1TB'];
-  const conditions = ['New', 'Like New', 'Good', 'Fair'];
+  const conditions = ['Brand New', 'Open Box', 'UK Used', 'Nigerian Used'];
 
   const handleChange = (field: keyof FormData, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    setFormData((prev) => {
+      const next = {
+        ...prev,
+        [field]: value,
+      };
+      if (onInputChange) {
+        onInputChange(next);
+      }
+      return next;
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -52,7 +59,7 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loa
 
   if (isCollapsed) {
     return (
-      <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-4 shadow-sm">
+      <div className="bg-white dark:bg-zinc-900 rounded-xl border border-stone-200 dark:border-gray-800 p-4 shadow-sm">
         <button
           onClick={onCollapse}
           className="w-full flex items-center justify-between hover:opacity-80 transition-opacity"
@@ -65,7 +72,7 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loa
   }
 
   return (
-    <div className="bg-white dark:bg-zinc-900 rounded-lg border border-stone-200 dark:border-zinc-800 p-6 shadow-sm">
+    <div className="bg-white dark:bg-zinc-900 rounded-xl border border-stone-200 dark:border-gray-800 p-6 shadow-sm">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Device Valuation</h3>
         <button
@@ -133,16 +140,16 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate, loa
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Device Condition
           </label>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {conditions.map((cond) => (
               <button
                 key={cond}
                 type="button"
                 onClick={() => handleChange('condition', cond)}
-                className={`flex-1 py-2 px-3 rounded-lg border transition-smooth text-sm font-medium ${
+                className={`px-3 py-2 rounded-lg border transition-all duration-200 text-sm font-medium ${
                   formData.condition === cond
                     ? 'bg-indigo-600 border-indigo-600 text-white'
-                    : 'bg-white dark:bg-zinc-800 border-stone-300 dark:border-zinc-700 text-gray-700 dark:text-gray-300 hover:border-indigo-300'
+                    : 'bg-white dark:bg-zinc-800 border-stone-300 dark:border-zinc-700 text-gray-700 dark:text-gray-300 hover:border-gray-600 dark:hover:border-gray-500'
                 }`}
               >
                 {cond}
